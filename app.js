@@ -1,6 +1,7 @@
 import { addBlockToDatabase, getAllBlocks } from "./database.js";
 import { collection, addDoc, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "./firebase-config.js";
+import elliptic from 'elliptic';
 
 // Ініціалізуємо elliptic із алгоритмом secp256k1
 const ec = new elliptic.ec('secp256k1');
@@ -31,11 +32,10 @@ function addBlock() {
 
     addBlockToDatabase(block);
 
-    if(document.getElementById("senderAddress")) document.getElementById("senderAddress").value = "";
-    if(document.getElementById("amount")) document.getElementById("amount").value = "";
-    if(document.getElementById("receivers")) document.getElementById("receivers").value = "";
-    if(document.getElementById("publicKey")) document.getElementById("publicKey").value = "";
-    if(document.getElementById("signature")) document.getElementById("signature").value = "";
+    ["senderAddress", "amount", "receivers", "publicKey", "signature"].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.value = "";
+    });
 }
 
 // Відображаємо блокчейн, використовуючи getAllBlocks з database.js
@@ -82,9 +82,10 @@ async function sendMessage() {
             timestamp: new Date() // використовується для сортування повідомлень
         });
 
-        if(document.getElementById("sender")) document.getElementById("sender").value = "";
-        if(document.getElementById("message")) document.getElementById("message").value = "";
-        if(document.getElementById("signature")) document.getElementById("signature").value = "";
+        ["sender", "message", "signature"].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = "";
+        });
 
         displayMessages();
     } catch (error) {
@@ -162,11 +163,10 @@ function signMessage() {
 // Attach event listeners after DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
   console.log("DOM fully loaded");
-  document.getElementById('generateKeysBtn').addEventListener('click', generateKeys);
-  document.getElementById('signMessageBtn').addEventListener('click', signMessage);
-  document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+  document.getElementById('generateKeysBtn')?.addEventListener('click', generateKeys);
+  document.getElementById('signMessageBtn')?.addEventListener('click', signMessage);
+  document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
 
   // Optionally, display messages immediately after load:
   displayMessages();
 });
-

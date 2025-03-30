@@ -162,13 +162,3 @@ pre {
     margin-top: 10px;
     word-break: break-all;
 }
-
-#privateKey {
-    font-size: 16px;
-    padding: 10px;
-    background-color: #fffde7;  /* легкий жовтуватий фон */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 10px;
-    word-break: break-all;
-}
