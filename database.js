@@ -1,4 +1,5 @@
-import { db, ref, set, onValue } from "./firebase-config.js";
+import { db, ref, set, onValue, signInWithPopup } from "./firebase-config.js";
+
  
 // Додає блок до бази
 export async function addBlockToDatabase(block) {
@@ -64,5 +65,21 @@ async function displayMessages(blocks) {
         });
     } catch (error) {
         console.error("Помилка отримання повідомлень:", error);
+    }
+}
+
+
+
+import { auth, provider } from './firebase-config.js';
+
+export async function signInWithGoogle() {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        console.log("Успішний вхід:", user.displayName);
+        alert("👋 Привіт, " + user.displayName);
+    } catch (error) {
+        console.error("Помилка входу через Google:", error);
+        alert("❌ " + error.message);
     }
 }

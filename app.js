@@ -1,4 +1,4 @@
-import { addBlockToDatabase, getAllBlocks } from "./database.js";
+import { addBlockToDatabase, getAllBlocks, signInWithGoogle } from "./database.js";
 
 // Надсилаємо повідомлення та зберігаємо його у блокчейні через addBlockToDatabase
 async function sendMessage() {
@@ -34,5 +34,8 @@ async function sendMessage() {
 window.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded");
     document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
+    document.getElementById('signInWithGoogle')?.addEventListener('click', signInWithGoogle);
     getAllBlocks() 
 });
+
+
