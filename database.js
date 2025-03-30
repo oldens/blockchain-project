@@ -9,6 +9,11 @@ export async function addBlockToDatabase(block) {
         console.log("✅ Блок успішно додано!");
     } catch (error) {
         console.error("❌ Помилка при додаванні блоку:", error);
+        if (error.message.includes("PERMISSION_DENIED: Permission denied")) {
+            alert("❗ Для додавання повідомлень потрібно увійти через Google. ");
+        } else {
+            alert("⚠️ Сталася помилка: " + error.message);
+        }
     }
 }
  
@@ -38,6 +43,11 @@ export function getAllBlocks() {
                 displayMessages(blocks);
             },
             (error) => {
+                if (error.message.includes("permission_denied")) {
+                    alert("❗ Для перегляду блокчейну потрібно увійти через Google.");
+                } else {
+                    alert("⚠️ Сталася помилка: " + error.message);
+                }
                 reject(error);
             }
         );

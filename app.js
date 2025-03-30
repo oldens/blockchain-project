@@ -1,11 +1,15 @@
 import { addBlockToDatabase, getAllBlocks, signInWithGoogle } from "./database.js";
 
+
+
+
+
 // Надсилаємо повідомлення та зберігаємо його у блокчейні через addBlockToDatabase
 async function sendMessage() {
     const sender = document.getElementById("sender")?.value;
     const message = document.getElementById("message")?.value;
     const signature = document.getElementById("signature")?.value;
-    const publicKey = document.getElementById("publicKey")?.innerText;
+    const publicKey = document.getElementById("publicKey")?.value;
 
  
 
