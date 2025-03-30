@@ -1,50 +1,71 @@
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Повідомлення</title>
     <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
     <!-- Firebase та інші модулі підключаються в app.js -->
-</head>
-<body>
-
-    <button id=signInWithGoogle>Увійти через Google</button>
+  </head>
+  <body>
+    <button id="signInWithGoogle">Увійти через Google</button>
 
     <div class="container my-4">
-        <h1 class="mb-4">Надіслати повідомлення</h1>
-        
-        <!-- Форма повідомлення -->
-        <div class="message-creation-block card mb-3">
-            <div class="card-body">
-                <input type="text" id="sender" placeholder="Відправник" class="form-control mb-2">
-                <textarea id="message" rows="4" placeholder="Повідомлення" class="form-control mb-2"></textarea>
-                <input type="text" id="signature" placeholder="Підпис" class="form-control mb-2">
-                <input type="text" id="publicKey" placeholder="Публічний ключ" class="form-control mb-2">
-                <button class="btn btn-success" id="sendMessageBtn">Відправити</button>
-            </div>
-        </div>
+      <h1 class="mb-4">Надіслати повідомлення</h1>
 
-        <!-- Повідомлення -->
-        <div class="message-block card mb-3">
-            <div class="card-body">
-                <h2 class="card-title">Повідомлення:</h2>
-                <div id="messages"></div>
-            </div>
+      <!-- Форма повідомлення -->
+      <div class="message-creation-block card mb-3">
+        <div class="card-body">
+          <input
+            type="text"
+            id="sender"
+            placeholder="Відправник"
+            class="form-control mb-2"
+          />
+          <textarea
+            id="message"
+            rows="4"
+            placeholder="Повідомлення"
+            class="form-control mb-2"
+          ></textarea>
+          <input
+            type="text"
+            id="signature"
+            placeholder="Підпис"
+            class="form-control mb-2"
+          />
+          <input
+            type="text"
+            id="publicKey"
+            placeholder="Публічний ключ"
+            class="form-control mb-2"
+          />
+          <button class="btn btn-success" id="sendMessageBtn">
+            Відправити
+          </button>
         </div>
+      </div>
+
+      <!-- Повідомлення -->
+      <div class="message-block card mb-3">
+        <div class="card-body">
+          <h2 class="card-title">Повідомлення:</h2>
+          <div id="messages"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap JS bundle -->
 
     <script src="https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.5.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.5.0/firebase-database.js"></script>
     <script type="module" src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    
-
-</body>
+  </body>
 </html>
