@@ -61,3 +61,39 @@ displayBlockchain();
 
 // Експортуємо функцію додавання
 window.addBlock = addBlock;
+
+function displayMessages() {
+    const messagesDiv = document.getElementById("messages");
+    messagesDiv.innerHTML = '';
+    const db = JSON.parse(localStorage.getItem('dbMessages')) || [];
+    db.forEach((msg, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <strong>${msg.sender}</strong>: ${msg.message} <em>(${msg.signature})</em>
+            <br>
+            <button onclick="verifyMessage('${msg.message.replace(/'/g, "\\'")}', '${msg.signature}', '${msg.publicKey}')">Перевірити валідність</button>
+            <span id="validity-icon-${index}" class="validity-icon"></span>
+        `;
+        messagesDiv.appendChild(div);
+    });
+}
+
+function verifyMessage(message, signature, publicKey, index) {
+    const hash = CryptoJS.SHA256(message).toString();
+    let keyFromPub;
+    try {
+        keyFromPub = ec.keyFromPublic(publicKey, "hex");
+    } catch (e) {
+        alert("Невірний публічний ключ!");
+        return;
+    }
+    const valid = keyFromPub.verify(hash, signature);
+    const icon = document.getElementById(`validity-icon-${index}`);
+    if (valid) {
+        icon.innerHTML = "✔️";
+        icon.classList.add("valid");
+    } else {
+        icon.innerHTML = "❌";
+        icon.classList.add("invalid");
+    }
+}

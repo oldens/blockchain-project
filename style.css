@@ -118,3 +118,37 @@ pre {
 .right-panel {
     margin-left: 2%;
 }
+
+/* Key Generation Block */
+.key-generation-block {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Message Creation Block */
+.message-creation-block {
+    background-color: #e8f5e9;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Message Block */
+.message-block {
+    background-color: #fce4ec;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Wide Column for Message Stream */
+.message-stream-column {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}

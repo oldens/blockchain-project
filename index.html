@@ -15,21 +15,26 @@
         <h1>Надіслати повідомлення</h1>
         
         <!-- Вікно для генерації ключів -->
-        <div>
+        <div class="key-generation-block">
             <h2>Ключі</h2>
             <button onclick="generateKeys()">Генерувати ключі</button>
             <p id="publicKey"></p>
         </div>
         
         <!-- Форма повідомлення -->
-        <input type="text" id="sender" placeholder="Відправник">
-        <textarea id="message" rows="4" placeholder="Повідомлення"></textarea>
-        <button onclick="signMessage()">Генерувати підпис</button>
-        <input type="text" id="signature" placeholder="Підпис">
-        <button onclick="sendMessage()">Відправити</button>
+        <div class="message-creation-block">
+            <input type="text" id="sender" placeholder="Відправник">
+            <textarea id="message" rows="4" placeholder="Повідомлення"></textarea>
+            <button onclick="signMessage()">Генерувати підпис</button>
+            <input type="text" id="signature" placeholder="Підпис">
+            <button onclick="sendMessage()">Відправити</button>
+        </div>
 
-        <h2>Повідомлення:</h2>
-        <div id="messages"></div>
+        <!-- Повідомлення -->
+        <div class="message-block">
+            <h2>Повідомлення:</h2>
+            <div id="messages"></div>
+        </div>
     </div>
 
     <script>
