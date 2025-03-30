@@ -9,6 +9,7 @@ function addBlock() {
     const signature = document.getElementById("signature").value;
 
     if (!senderAddress || isNaN(amount) || receivers.length === 0 || !publicKey || !signature) {
+
         alert("Введіть всі необхідні дані!");
         return;
     }
@@ -22,6 +23,7 @@ function addBlock() {
         publicKey: publicKey,
         signature: signature
     };
+
 
     addBlockToDatabase(block);
     document.getElementById("senderAddress").value = "";
