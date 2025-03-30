@@ -74,33 +74,6 @@ pre {
     word-wrap: break-word;
 }
 
-/* Optional Blockchain Styles */
-#blockchain {
-    margin-top: 20px;
-}
-
-.block {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    margin: 10px 0;
-    text-align: left;
-}
-
-.block p {
-    margin: 5px 0;
-}
-
-.block ul {
-    list-style: none;
-    padding: 0;
-}
-
-.block ul li {
-    margin: 5px 0;
-}
-
 /* Panels */
 .left-panel,
 .right-panel {
@@ -117,14 +90,6 @@ pre {
 
 .right-panel {
     margin-left: 2%;
-}
-
-/* Key Generation Block */
-.key-generation-block {
-    background-color: #e0f7fa;
-    padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 20px;
 }
 
 /* Message Creation Block */
