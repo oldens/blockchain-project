@@ -4,20 +4,20 @@ import { addBlockToDatabase, getAllBlocks } from "./database.js";
 function addBlock() {
     const senderAddress = document.getElementById("senderAddress").value;
     const amount = parseFloat(document.getElementById("amount").value);
-    const receivers = document.getElementById("receivers").value.split(',');
+    const receiverElement = document.getElementById("receivers");
+    const receiver = receiverElement ? receiverElement.value : null;
 
-    if (!senderAddress || isNaN(amount) || receivers.length === 0) {
+    if (!senderAddress || isNaN(amount) || !receiver) {
         alert("Введіть всі необхідні дані!");
         return;
     }
 
     const block = {
         sender: senderAddress,
-        receivers: receivers.map(receiver => ({
-            address: receiver.trim(),
-            amount: amount / receivers.length
-        }))
-    };
+        receivers:  [
+            {address: receiver,
+            amount: amount}]
+        }
 
     addBlockToDatabase(block);
     document.getElementById("senderAddress").value = "";
