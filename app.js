@@ -4,25 +4,33 @@ import { addBlockToDatabase, getAllBlocks } from "./database.js";
 function addBlock() {
     const senderAddress = document.getElementById("senderAddress").value;
     const amount = parseFloat(document.getElementById("amount").value);
-    const receiverElement = document.getElementById("receivers");
-    const receiver = receiverElement ? receiverElement.value : null;
+    const receivers = document.getElementById("receivers").value.split(',');
+    const publicKey = document.getElementById("publicKey").value;
+    const signature = document.getElementById("signature").value;
 
-    if (!senderAddress || isNaN(amount) || !receiver) {
+    if (!senderAddress || isNaN(amount) || receivers.length === 0 || !publicKey || !signature) {
+
         alert("Введіть всі необхідні дані!");
         return;
     }
 
     const block = {
         sender: senderAddress,
-        receivers:  [
-            {address: receiver,
-            amount: amount}]
-        }
+        receivers: receivers.map(receiver => ({
+            address: receiver.trim(),
+            amount: amount / receivers.length
+        })),
+        publicKey: publicKey,
+        signature: signature
+    };
+
 
     addBlockToDatabase(block);
     document.getElementById("senderAddress").value = "";
     document.getElementById("amount").value = "";
     document.getElementById("receivers").value = "";
+    document.getElementById("publicKey").value = "";
+    document.getElementById("signature").value = "";
 }
 
 // Відображає блокчейн через абстрактний метод
@@ -40,6 +48,8 @@ function displayBlockchain() {
                 <ul>
                     ${block.receivers.map(receiver => `<li>${receiver.address}: ${receiver.amount}</li>`).join('')}
                 </ul>
+                <p><strong>Публічний ключ:</strong> ${block.publicKey}</p>
+                <p><strong>Підпис:</strong> ${block.signature}</p>
             `;
             blockchain.appendChild(blockElement);
         });
