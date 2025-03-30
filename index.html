@@ -3,18 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Блокчейн</title>
+    <title>Повідомлення</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Блокчейн</h1>
-    <input type="text" id="senderAddress" placeholder="Введіть адресу відправника">
-    <input type="text" id="amount" placeholder="Введіть суму">
-    <input type="text" id="receivers" placeholder="Введіть адреси отримувачів">
-    <button onclick="addBlock()">Додати</button>
-    <div id="blockchain"></div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.4/elliptic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Надіслати повідомлення</h1>
+        
+        <!-- Вікно для генерації ключів -->
+        <div>
+            <h2>Ключі</h2>
+            <button onclick="generateKeys()">Генерувати ключі</button>
+            <p id="publicKey"></p>
+        </div>
+        
+        <!-- Форма повідомлення -->
+        <input type="text" id="sender" placeholder="Відправник">
+        <textarea id="message" rows="4" placeholder="Повідомлення"></textarea>
+        <button onclick="signMessage()">Генерувати підпис</button>
+        <input type="text" id="signature" placeholder="Підпис">
+        <button onclick="sendMessage()">Відправити</button>
+
+        <h2>Повідомлення:</h2>
+        <div id="messages"></div>
+    </div>
+
+    <script>
+      const ec = new elliptic.ec('secp256k1');
+      let keyPair;
+
+      function generateKeys() {
+        keyPair = ec.genKeyPair();
+        const pubKey = keyPair.getPublic('hex');
+        document.getElementById("publicKey").innerText = pubKey;
+        alert("Ключі згенеровано!");
+      }
+
+      function signMessage() {
+        const message = document.getElementById("message").value;
+        if (!keyPair) {
+          alert("Спершу згенеруйте ключі!");
+          return;
+        }
+        const hash = CryptoJS.SHA256(message).toString();
+        const signatureObj = keyPair.sign(hash);
+        const sigHex = signatureObj.toDER('hex');
+        document.getElementById("signature").value = sigHex;
+      }
+
+      function sendMessage() {
+        const sender = document.getElementById("sender").value;
+        const message = document.getElementById("message").value;
+        const signature = document.getElementById("signature").value;
+        const publicKey = document.getElementById("publicKey").innerText;
+    
+        if (!sender || !message || !signature || !publicKey) {
+          alert("Заповніть всі необхідні дані та згенеруйте ключі!");
+          return;
+        }
+    
+        // Зберігаємо повідомлення як симуляцію бази даних
+        const db = JSON.parse(localStorage.getItem('dbMessages')) || [];
+        db.push({ sender, message, signature, publicKey });
+        localStorage.setItem('dbMessages', JSON.stringify(db));
+    
+        displayMessages();
+    
+        // Очищення полів вводу
+        document.getElementById("sender").value = '';
+        document.getElementById("message").value = '';
+        document.getElementById("signature").value = '';
+      }
+      
+      function verifyMessage(message, signature, publicKey) {
+        const hash = CryptoJS.SHA256(message).toString();
+        let keyFromPub;
+        try {
+          keyFromPub = ec.keyFromPublic(publicKey, "hex");
+        } catch (e) {
+          alert("Невірний публічний ключ!");
+          return;
+        }
+        const valid = keyFromPub.verify(hash, signature);
+        alert(valid ? "Підпис дійсний" : "Підпис недійсний");
+      }
+      
+      function displayMessages() {
+        const messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML = '';
+        const db = JSON.parse(localStorage.getItem('dbMessages')) || [];
+        db.forEach((msg, index) => {
+          const div = document.createElement("div");
+          div.innerHTML = `
+            <strong>${msg.sender}</strong>: ${msg.message} <em>(${msg.signature})</em>
+            <br>
+            <button onclick="verifyMessage('${msg.message.replace(/'/g, "\\'")}', '${msg.signature}', '${msg.publicKey}')">Перевірити валідність</button>
+          `;
+          messagesDiv.appendChild(div);
+        });
+      }
+    
+      // Відображення повідомлень при завантаженні сторінки
+      displayMessages();
+      
+      // Експортуємо функції для використання в атрибутах onclick
+      window.generateKeys = generateKeys;
+      window.signMessage = signMessage;
+      window.sendMessage = sendMessage;
+      window.verifyMessage = verifyMessage;
+    </script>
 </body>
 </html>
